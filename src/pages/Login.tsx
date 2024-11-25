@@ -10,7 +10,7 @@ const Login = () => {
     password: "",
   });
   const [error, setError] = useState<string | null>(null);
-  const navigate = useNavigate(); // Para redirigir al usuario después del login
+  const navigate = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -35,9 +35,7 @@ const Login = () => {
       if (response.status === 200) {
         // Guardar token en localStorage
         localStorage.setItem("authToken", response.data.token);
-
-        // Redirigir al usuario a la página principal (ajusta la ruta según tu proyecto)
-        navigate("/dashboard");
+        navigate("/");
       }
     } catch (error: any) {
       if (error.response) {
