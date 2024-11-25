@@ -1,6 +1,6 @@
 // import { useState } from "react";
 import { Link, useLocation } from "react-router-dom"; 
-import User from "../assets/images/usuario.png";
+// import User from "../assets/images/usuario.png";
 import GetsyLogo from "../assets/images/GetsyLogo.png";
 
 const Navbar = () => {
@@ -43,7 +43,7 @@ const Navbar = () => {
         
       </div>
 
-      <div>
+      {/* <div>
       <Link
           to="/login"
           className={`text-black font-semibold hover:text-yellow-200 px-2 py-1 ml-40 ${
@@ -52,16 +52,16 @@ const Navbar = () => {
         >
           Iniciar Sesión
         </Link>
-        </div>      
+        </div>       */}
 
         
-      <div>
+      {/* <div>
         <img
           src={User}
           alt="Foto de perfil"
           className="w-10 h-10 rounded-full"
         />
-      </div>
+      </div> */}
     </nav>
   );
 };
