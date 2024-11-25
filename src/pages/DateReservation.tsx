@@ -1,64 +1,84 @@
 import { useState } from "react";
-import Navbar from "../components/Navbar"; // Asegúrate de tener este componente
-import "react-calendar/dist/Calendar.css"; // Importa los estilos del calendario
+import Navbar from "../components/Navbar";
+import "react-calendar/dist/Calendar.css";
 import Calendar from "react-calendar";
+import { useNavigate } from "react-router-dom";
 
-const ReservationCalendar = () => {
+const DateReservation = () => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [reservationDetails, setReservationDetails] = useState({
     time: "",
     people: 1,
   });
+  const navigate = useNavigate();
 
-  // Maneja la selección de fecha
   const handleDateSelect = (date: Date | Date[] | null) => {
     if (date instanceof Date) {
-      setSelectedDate(date); // Si es una sola fecha, la seleccionamos
+      setSelectedDate(date);
       setIsModalOpen(true);
-    } else if (Array.isArray(date) && date.length > 0) {
-      // Si es un rango de fechas, seleccionamos la primera fecha del rango
-      setSelectedDate(date[0]);
-      setIsModalOpen(true);
-    } else {
-      setSelectedDate(null); // Si es null, no hacemos nada
     }
   };
 
-  // Maneja el cambio en los campos del modal
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setReservationDetails((prev) => ({ ...prev, [name]: value }));
   };
 
-  // Envía los detalles de la reserva
-  const handleSubmit = () => {
-    console.log("Reserva realizada:", {
-      date: selectedDate,
-      ...reservationDetails,
-    });
-    setIsModalOpen(false);
+  const handleSubmit = async () => {
+    if (!selectedDate || !reservationDetails.time || reservationDetails.people < 1) {
+      alert("Por favor, completa todos los campos.");
+      return;
+    }
 
-    // Limpia los campos del formulario
-    setReservationDetails({
-      time: "",
-      people: 1,
-    });
+    const userToken = localStorage.getItem("authToken");
+    if (!userToken) {
+      alert("Debes iniciar sesión para hacer una reserva.");
+      navigate("/login");
+      return;
+    }
+
+    const reservationData = {
+      date: selectedDate.toISOString(),
+      time: reservationDetails.time,
+      people: reservationDetails.people,
+      restaurant: "Restaurante Ejemplo", // Cambia según tu lógica de negocio
+      userName: "Nombre del Usuario", // Obtén esto del contexto o del backend
+    };
+
+    try {
+      const response = await fetch("http://localhost:8080/getsy-back/reservations/create", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${userToken}`,
+        },
+        body: JSON.stringify(reservationData),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+
+        // Redirigir a la página de confirmación con los datos de la reserva
+        navigate("/confirmation-reservation", { state: { reservation: data } });
+      } else {
+        const errorData = await response.json();
+        alert(`Error al realizar la reserva: ${errorData.message}`);
+      }
+    } catch (error) {
+      console.error("Error al realizar la reserva:", error);
+      alert("Hubo un error al intentar hacer la reserva. Intenta de nuevo.");
+    }
   };
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Navbar */}
       <Navbar />
-
-      {/* Título */}
-      <h1 className="text-4xl font-bold text-center  mb-24 mt-16">
+      <h1 className="text-4xl font-bold text-center mb-24 mt-16">
         Escoge la Fecha
       </h1>
-
-      {/* Calendario */}
       <div className="flex justify-center">
-        <div className="scale-125 shadow-lg rounded-lg"> {/* Aquí se ajusta el tamaño */}
+        <div className="scale-125 shadow-lg rounded-lg">
           <Calendar
             onChange={(date) => handleDateSelect(date as Date | Date[] | null)}
             className="p-4"
@@ -66,20 +86,15 @@ const ReservationCalendar = () => {
         </div>
       </div>
 
-      {/* Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white rounded-lg p-6 w-96">
             <h2 className="text-2xl font-bold mb-4 text-center">
               Detalles de la Reserva
             </h2>
-
-            {/* Fecha seleccionada */}
             <p className="text-gray-700 mb-4 text-center">
               Fecha: {selectedDate ? selectedDate.toLocaleDateString() : "Fecha no válida"}
             </p>
-
-            {/* Hora */}
             <div className="mb-4">
               <label className="block text-sm font-semibold text-gray-600">
                 Hora
@@ -92,8 +107,6 @@ const ReservationCalendar = () => {
                 className="w-full px-4 py-2 mt-2 border rounded-md focus:ring-2 focus:ring-yellow-500 focus:outline-none"
               />
             </div>
-
-            {/* Número de personas */}
             <div className="mb-4">
               <label className="block text-sm font-semibold text-gray-600">
                 Número de Personas
@@ -107,8 +120,6 @@ const ReservationCalendar = () => {
                 className="w-full px-4 py-2 mt-2 border rounded-md focus:ring-2 focus:ring-yellow-500 focus:outline-none"
               />
             </div>
-
-            {/* Botones */}
             <div className="flex justify-between">
               <button
                 onClick={() => setIsModalOpen(false)}
@@ -130,4 +141,4 @@ const ReservationCalendar = () => {
   );
 };
 
-export default ReservationCalendar;
+export default DateReservation;

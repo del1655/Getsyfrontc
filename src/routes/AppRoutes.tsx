@@ -8,9 +8,7 @@ import Singup from "../pages/Signup";
 import DateReservation from "../pages/DateReservation";
 import InfoRestaurants from '../pages/InfoRestaurants';
 import InfoEachRestaurant from '../pages/EachInfoR';
-
-
-// import UserProfile from "../pages/UserProfile";
+import ConfirmationReservation from '../pages/ConfirmationReservation'; // Importa la página de confirmación
 
 const AppRoutes = () => {
   return (
@@ -23,14 +21,8 @@ const AppRoutes = () => {
         <Route path="/signup" element={<Singup />} />
         <Route path="/gettingdate" element={<DateReservation />} />
         <Route path="/inforestaurants" element={<InfoRestaurants />} />
-        <Route path="/infoeachR" element={<InfoEachRestaurant />} />
-
-
-
-
-        {/* <Route path='/gettingdate' element={<DateReservation/>} */}
-
-        {/* <Route path="/profile" element={<UserProfile />} /> */}
+        <Route path="/infoeachR/:id" element={<InfoEachRestaurant />} />
+        <Route path="/confirmation-reservation" element={<ConfirmationReservation />} /> {/* Ruta de confirmación */}
       </Routes>
     </Router>
   );

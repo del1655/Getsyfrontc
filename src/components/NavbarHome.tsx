@@ -1,61 +1,57 @@
-import { Link, useLocation } from "react-router-dom"; 
-// import User from "../assets/images/usuario.png";
-// import GetsyLogo from "../assets/images/GetsyLogo.png";
+import { Link, useLocation } from "react-router-dom";
 
 const NavbarHome = () => {
   const location = useLocation(); 
   const isActive = (path: string) => location.pathname === path;
 
   return (
-    <nav className="flex items-center justify-between px-6 py-4 bg-transparent">
-      {/* Menú izquierdo */}
+    <nav className="flex items-center justify-between px-6 py-4 bg-transparent mb-16 sm:mb-0">
+      {/* Menú izquierdo (Enlace a Inicio, Mis Reservas y Mi Perfil) */}
       <div className="flex items-center space-x-4">
         <Link
           to="/"
-          className={`text-white font-semibold px-2 py-1 ${
-            isActive("/") ? "underline underline-offset-4" : ""
+          className={`text-black sm:text-white font-semibold px-2 py-1 ${
+            isActive("/") ? "border-b-2 border-yellow-500" : ""
           }`}
         >
           Inicio
         </Link>
+
+        {/* Enlaces solo visibles en pantallas grandes y pequeños */}
         <Link
           to="/Reservations"
-          className={`text-white font-semibold px-2 py-1 ${
-            isActive("/Reservations") ? "underline underline-offset-4" : ""
+          className={`text-black sm:text-white font-semibold px-2 py-1 ${
+            isActive("/Reservations") ? "border-b-2 border-yellow-500" : ""
           }`}
         >
-          Mis Reservas
+          Reservas
         </Link>
         <Link
           to="/profile"
-          className={`text-white font-semibold px-2 py-1 ${
-            isActive("/profile") ? "underline underline-offset-4" : ""
+          className={`text-black sm:text-white font-semibold px-2 py-1 ${
+            isActive("/profile") ? "border-b-2 border-yellow-500" : ""
           }`}
         >
-          Mi Perfil
+          Perfil
         </Link>
       </div>
 
-      {/* Logo */}
-      <div className="absolute left-1/2 transform -translate-x-1/2">
+      {/* Logo (Ocultarlo en móvil y mostrarlo solo en pantallas grandes) */}
+      <div className="hidden sm:block absolute left-1/2 transform -translate-x-1/2">
+        {/* Aquí puedes colocar el logo si lo deseas, pero solo en pantallas grandes */}
         {/* <img src={GetsyLogo} alt="Logo" className="h-16" /> */}
       </div>
 
-      {/* Botones y foto de usuario */}
+      {/* Botón Iniciar Sesión en móvil y escritorio */}
       <div className="flex items-center space-x-4">
         <Link
           to="/login"
-          className={`text-white font-semibold px-2 py-1 ${
-            isActive("/login") ? "underline underline-offset-4" : ""
+          className={`text-black sm:text-white font-semibold px-2 py-1 ${
+            isActive("/login") ? "border-b-2 border-yellow-500" : ""
           }`}
         >
           Iniciar Sesión
         </Link>
-        {/* <img
-          src={User}
-          alt="Foto de perfil"
-          className="w-10 h-10 rounded-full"
-        /> */}
       </div>
     </nav>
   );

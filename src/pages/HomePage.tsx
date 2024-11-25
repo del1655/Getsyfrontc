@@ -1,69 +1,56 @@
 import { Link } from "react-router-dom";
 import FondoHome from '../assets/images/fondoHome.jpg'
-// import restaurant from '../assets/images/restaurant-449952_1280 1 (3).png'
 import cortes from '../assets/images/cortesjpg.jpg'
 import ensaladas from '../assets/images/ensaladas.jpg'
 import pastas from '../assets/images/pastas.jpg'
 import nosotros1 from '../assets/images/nosotros1.jpg'
 import nosotros2 from '../assets/images/nosotor2.jpg'
 import NavbarHome from "../components/NavbarHome";
-// import logo from '../assets/images/LogoG.png'
 
 const HomePage = () => {
     return (
         <div>
+            <div className="bg-transparent sm:bg-gray-900">
 
+                {/* Navbar */}
+                <NavbarHome />
 
-
-            <div className="bg-gray-900">
-
-                {/* Contenedor para el logo y el botón */}
-                <div className="absolute top-4 left-4 z-10 flex items-center gap-4">
-                </div>
-
-                {/* Botón Iniciar Sesión */}
-                <div className="absolute top-4 right-4 z-10">
-                    {/* <Link
-                        to="/login"
-                        className="px-6 py-2 text-sm font-semibold text-white rounded-md border-2 border-white bg-transparent hover:bg-white hover:text-gray-900 transition-all transform hover:scale-105 m-6"
-                    >
-                        Iniciar Sesión
-                    </Link> */}
-                </div>
-                <NavbarHome></NavbarHome>
-                {/* Imagen de fondo con transparencia */}
+                {/* Imagen de fondo con transparencia solo para web */}
                 <div className="relative">
                     <img
                         src={FondoHome}
                         alt="Fondo de Bienvenida"
-                        className="w-full h-[50vh] object-cover opacity-50"
+                        className="w-full h-[50vh] object-cover opacity-50 hidden sm:block" // Solo se muestra en pantallas grandes
                     />
-                    <div className="absolute inset-0 flex flex-col justify-center items-center mb-11">
-                        <h1 className="text-8xl font-extrabold text-white tracking-wider drop-shadow-lg font-serif">Bienvenido</h1>
-                        <h1 className="text-6xl font-extrabold text-white tracking-wider drop-shadow-lg font-serif">a Getsy
+                    {/* Texto de Bienvenida */}
+                    <div className="absolute inset-0 flex flex-col justify-center mb-11">
+                        <h1 className="text-8xl font-extrabold text-white tracking-wider drop-shadow-lg font-serif hidden text-center sm:block">Bienvenido</h1>
+                        <h1 className="text-6xl font-extrabold text-white tracking-wider drop-shadow-lg font-serif hidden text-center sm:block">a Getsy</h1>
 
-                        </h1>
-
+                        {/* Título en negro para móvil */}
+                        <h1 className="text-5xl font-extrabold text-black tracking-wider drop-shadow-lg font-serif sm:hidden text-left ml-9 mt-11">Bienvenido</h1>
+                        <h1 className="text-4xl font-extrabold text-black tracking-wider drop-shadow-lg font-serif sm:hidden text-left ml-9">a Getsy</h1>
+                        <p className="text-xl text-black font-semibold sm:hidden ml-9">¿Qué te gustaría de comer?</p>
                     </div>
                 </div>
 
             </div>
 
 
-
-
-
-
-
             {/* Categorías */}
             <div>
                 <div className="text-center mt-11">
-                    <h2 className="text-6xl font-bold text-yellow-500 mb-4 font-serif">Categorías</h2>
-                    <p className="text-xl text-black font-semibold">¿Qué te gustaría de comer?</p>
+                    {/* Título Categorías */}
+                    <h2 className="text-6xl font-bold text-yellow-500 mb-4 font-serif hidden sm:block">Categorías</h2>
+
+                    {/* Título en móvil */}
+                    <h2 className="text-4xl font-bold text-yellow-500 mb-4 font-serif sm:hidden mt-44 ">Categorías</h2>
+
+                    <p className="text-xl text-black font-semibold hidden sm:block">¿Qué te gustaría de comer?</p>
                 </div>
 
                 {/* Tres imágenes de categorías */}
-                <div className="grid grid-cols-1 md:grid-cols-3 mt-8 px-64 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-3 mt-8 px-4 gap-4">
                     {/* Cortes */}
                     <div className="flex flex-col items-center">
                         <Link to="/inforestaurants">
@@ -108,20 +95,10 @@ const HomePage = () => {
                 </div>
             </div>
 
-
-
-
-
-
-            {/* Descripción de categorías */}
-            {/* <div className="text-center mt-6">
-                <p className="text-gray-300">Cortes, Pastas, Ensaladas</p>
-            </div> */}
-
             {/* Sección Nosotros */}
             <div className="relative flex justify-center items-center mb-32 mt-32">
-                {/* Contenedor de las imágenes */}
-                <div className="absolute flex gap-56 mt-32">
+                {/* Contenedor de las imágenes solo en pantallas grandes */}
+                <div className="absolute flex gap-56 mt-32 hidden sm:flex"> {/* Solo visible en pantallas grandes */}
                     <img
                         src={nosotros1}
                         alt="Imagen izquierda"
@@ -153,10 +130,7 @@ const HomePage = () => {
                 </div>
             </div>
 
-
-
-
-            <footer className="bg-black text-white py-10 ">
+            <footer className="bg-black text-white py-10">
                 <div className="max-w-screen-xl mx-auto text-center">
                     <p className="text-sm mb-4">&copy; 2024 Getsy. Todos los derechos reservados.</p>
                     <div className="flex justify-center gap-6">
@@ -166,9 +140,6 @@ const HomePage = () => {
                     </div>
                 </div>
             </footer>
-
-
-
 
         </div>
     );
