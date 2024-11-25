@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom"; // Importamos Link para la navegación
 import Navbar from "../components/Navbar";
+import noImage from '../assets/images/no_image.jpg'
 
 interface Restaurant {
     id: number;
@@ -58,7 +59,7 @@ const InfoRestaurants = () => {
                             {/* Link en la imagen */}
                             <Link to={`/infoeachR/${restaurant.id}`} className="w-full">
                                 <img
-                                    src={restaurant.logo}
+                                    src={restaurant.logo || noImage}
                                     alt={restaurant.name}
                                     className="w-full h-64 object-cover rounded-t-lg shadow-xl transform hover:scale-105 transition-all duration-300 ease-in-out"
                                 />

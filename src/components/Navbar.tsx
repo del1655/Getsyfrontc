@@ -1,8 +1,9 @@
 import { Link, useLocation } from "react-router-dom";
 
 const Navbar = () => {
-  const location = useLocation(); 
+  const location = useLocation();
   const isActive = (path: string) => location.pathname === path;
+  const isLoggedIn = localStorage.getItem("authToken");
 
   return (
     <nav className="flex items-center justify-between px-6 py-4 bg-transparent mb-16 sm:mb-0 mt-5 sm:mt-0 shadow-[rgba(13,_38,_76,_0.19)_0px_9px_20px]">
@@ -10,30 +11,33 @@ const Navbar = () => {
       <div className="flex items-center space-x-4">
         <Link
           to="/"
-          className={`text-black sm:text-black font-semibold px-2 py-1 ${
-            isActive("/") ? "border-b-2 border-yellow-500" : ""
-          }`}
+          className={` text-black sm:text-black font-semibold px-2 py-1 ${isActive("/") ? "border-b-2 border-yellow-500" : ""
+            }`}
         >
           Inicio
         </Link>
 
         {/* Enlaces solo visibles en pantallas grandes y pequeños */}
-        <Link
-          to="/Reservations"
-          className={`text-black sm:text-black font-semibold px-2 py-1 ${
-            isActive("/Reservations") ? "border-b-2 border-yellow-500" : ""
-          }`}
-        >
-          Reservas
-        </Link>
-        <Link
-          to="/profile"
-          className={`text-black sm:text-black font-semibold px-2 py-1 ${
-            isActive("/profile") ? "border-b-2 border-yellow-500" : ""
-          }`}
-        >
-          Perfil
-        </Link>
+        {isLoggedIn ? (
+          <Link
+            to="/Reservations"
+            className={`text-black sm:text-black font-semibold px-2 py-1 ${isActive("/Reservations") ? "border-b-2 border-yellow-500" : ""
+              }`}
+          >
+            Reservas
+          </Link>
+        ) : null}
+
+        {isLoggedIn ? (
+          <Link
+            to="/Profile"
+            className={`text-black sm:text-black font-semibold px-2 py-1 ${isActive("/Profile") ? "border-b-2 border-yellow-500" : ""
+              }`}
+          >
+            Perfil
+          </Link>
+        ) : null}
+
       </div>
 
       {/* Logo (Ocultarlo en móvil y mostrarlo solo en pantallas grandes) */}
@@ -43,16 +47,16 @@ const Navbar = () => {
       </div>
 
       {/* Botón Iniciar Sesión en móvil y escritorio */}
-      <div className="flex items-center space-x-4">
-        <Link
-          to="/login"
-          className={`text-black sm:text-black font-semibold px-2 py-1 ${
-            isActive("/login") ? "border-b-2 border-yellow-500" : ""
-          }`}
-        >
-          Iniciar Sesión
-        </Link>
-      </div>
+      {!isLoggedIn ? (
+        <div className="flex items-center space-x-4">
+          <Link
+            to="/login"
+            className={`text-black sm:text-black font-semibold px-2 py-1 ${isActive("/login") ? "border-b-2 border-yellow-500" : ""
+              }`}
+          >
+            Iniciar Sesión
+          </Link>
+        </div>) : null}
     </nav>
   );
 };

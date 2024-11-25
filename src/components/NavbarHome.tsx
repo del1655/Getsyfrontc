@@ -1,8 +1,9 @@
 import { Link, useLocation } from "react-router-dom";
 
 const NavbarHome = () => {
-  const location = useLocation(); 
+  const location = useLocation();
   const isActive = (path: string) => location.pathname === path;
+  const isLoggedIn = localStorage.getItem("authToken");
 
   return (
     <nav className="flex items-center justify-between px-6 py-4 bg-transparent mb-16 sm:mb-0">
@@ -10,30 +11,31 @@ const NavbarHome = () => {
       <div className="flex items-center space-x-4">
         <Link
           to="/"
-          className={`text-black sm:text-white font-semibold px-2 py-1 ${
-            isActive("/") ? "border-b-2 border-yellow-500" : ""
-          }`}
+          className={`text-black sm:text-white font-semibold px-2 py-1 ${isActive("/") ? "border-b-2 border-yellow-500" : ""
+            }`}
         >
           Inicio
         </Link>
 
         {/* Enlaces solo visibles en pantallas grandes y pequeños */}
-        <Link
-          to="/Reservations"
-          className={`text-black sm:text-white font-semibold px-2 py-1 ${
-            isActive("/Reservations") ? "border-b-2 border-yellow-500" : ""
-          }`}
-        >
-          Reservas
-        </Link>
-        <Link
-          to="/profile"
-          className={`text-black sm:text-white font-semibold px-2 py-1 ${
-            isActive("/profile") ? "border-b-2 border-yellow-500" : ""
-          }`}
-        >
-          Perfil
-        </Link>
+        {isLoggedIn ? (
+          <Link
+            to="/Reservations"
+            className={`text-black sm:text-white font-semibold px-2 py-1 ${isActive("/Reservations") ? "border-b-2 border-yellow-500" : ""
+              }`}
+          >
+            Reservas
+          </Link>
+        ) : null}
+        {isLoggedIn ? (
+          <Link
+            to="/profile"
+            className={`text-black sm:text-white font-semibold px-2 py-1 ${isActive("/profile") ? "border-b-2 border-yellow-500" : ""
+              }`}
+          >
+            Perfil
+          </Link>
+        ) : null}
       </div>
 
       {/* Logo (Ocultarlo en móvil y mostrarlo solo en pantallas grandes) */}
@@ -43,16 +45,17 @@ const NavbarHome = () => {
       </div>
 
       {/* Botón Iniciar Sesión en móvil y escritorio */}
-      <div className="flex items-center space-x-4">
-        <Link
-          to="/login"
-          className={`text-black sm:text-white font-semibold px-2 py-1 ${
-            isActive("/login") ? "border-b-2 border-yellow-500" : ""
-          }`}
-        >
-          Iniciar Sesión
-        </Link>
-      </div>
+      {!isLoggedIn ? (
+        <div className="flex items-center space-x-4">
+          <Link
+            to="/login"
+            className={`text-black sm:text-white font-semibold px-2 py-1 ${isActive("/login") ? "border-b-2 border-yellow-500" : ""
+              }`}
+          >
+            Iniciar Sesión
+          </Link>
+        </div>
+      ) : null}
     </nav>
   );
 };

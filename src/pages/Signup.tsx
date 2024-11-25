@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios"; // Asegúrate de tener axios instalado: npm install axios
 import loginfondo from '../assets/images/loginfondo.jpg';
 import logoG from '../assets/images/LogoG.png';
+import { useNavigate, useLocation } from "react-router-dom";
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -13,6 +14,7 @@ const Signup = () => {
 
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -34,6 +36,7 @@ const Signup = () => {
 
       if (response.status === 201) {
         setSuccess("Usuario creado exitosamente.");
+        navigate('/login');
       }
     } catch (error: any) {
       if (error.response) {
@@ -67,7 +70,7 @@ const Signup = () => {
                 type="name"
                 value={formData.name}
                 onChange={handleChange}
-                placeholder="Ingresa tu correo"
+                placeholder="Ingresa tu nombre"
                 className="w-full px-4 py-2 mt-2 border rounded-md focus:ring-2 focus:ring-yellow-500 focus:outline-none"
               />
             </div>
