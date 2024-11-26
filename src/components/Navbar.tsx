@@ -1,8 +1,10 @@
 import { Link, useLocation } from "react-router-dom";
+import Logo from "../assets/images/LogoG.png"; // Asegúrate de usar la ruta correcta al logo
 
 const Navbar = () => {
   const location = useLocation();
-  const isActive = (path: string) => location.pathname === path;
+  const isActive = (path: string) => location.pathname === path; // Verifica si la ruta actual coincide
+
   const isLoggedIn = localStorage.getItem("authToken");
 
   return (
@@ -11,18 +13,20 @@ const Navbar = () => {
       <div className="flex items-center space-x-4">
         <Link
           to="/"
-          className={` text-black sm:text-black font-semibold px-2 py-1 ${isActive("/") ? "border-b-2 border-yellow-500" : ""
-            }`}
+          className={`text-black sm:text-black font-semibold px-2 py-1 ${
+            isActive("/") ? "border-b-2 border-yellow-500" : "" // Línea amarilla si es ruta activa
+          }`}
         >
           Inicio
         </Link>
 
-        {/* Enlaces solo visibles en pantallas grandes y pequeños */}
+        {/* Enlaces visibles solo si el usuario está logueado */}
         {isLoggedIn ? (
           <Link
-            to="/Reservations"
-            className={`text-black sm:text-black font-semibold px-2 py-1 ${isActive("/Reservations") ? "border-b-2 border-yellow-500" : ""
-              }`}
+            to="/:id/Reservations"
+            className={`text-black sm:text-black font-semibold px-2 py-1 ${
+              isActive("/Reservations") ? "border-b-2 border-yellow-500" : "" // Línea amarilla si es ruta activa
+            }`}
           >
             Reservas
           </Link>
@@ -31,32 +35,39 @@ const Navbar = () => {
         {isLoggedIn ? (
           <Link
             to="/Profile"
-            className={`text-black sm:text-black font-semibold px-2 py-1 ${isActive("/Profile") ? "border-b-2 border-yellow-500" : ""
-              }`}
+            className={`text-black sm:text-black font-semibold px-2 py-1 ${
+              isActive("/Profile") ? "border-b-2 border-yellow-500" : "" // Línea amarilla si es ruta activa
+            }`}
           >
             Perfil
           </Link>
         ) : null}
-
       </div>
 
-      {/* Logo (Ocultarlo en móvil y mostrarlo solo en pantallas grandes) */}
-      <div className="hidden sm:block absolute left-1/2 transform -translate-x-1/2">
-        {/* Aquí puedes colocar el logo si lo deseas, pero solo en pantallas grandes */}
-        {/* <img src={GetsyLogo} alt="Logo" className="h-16" /> */}
+      {/* Logo */}
+      <div className="flex items-center">
+        <Link to="/">
+          <img
+            src={Logo}
+            alt="Getsy Logo"
+            className="h-10 sm:h-12 object-contain"
+          />
+        </Link>
       </div>
 
-      {/* Botón Iniciar Sesión en móvil y escritorio */}
+      {/* Botón Iniciar Sesión */}
       {!isLoggedIn ? (
         <div className="flex items-center space-x-4">
           <Link
             to="/login"
-            className={`text-black sm:text-black font-semibold px-2 py-1 ${isActive("/login") ? "border-b-2 border-yellow-500" : ""
-              }`}
+            className={`text-black sm:text-black font-semibold px-2 py-1 ${
+              isActive("/login") ? "border-b-2 border-yellow-500" : "" // Línea amarilla si es ruta activa
+            }`}
           >
             Iniciar Sesión
           </Link>
-        </div>) : null}
+        </div>
+      ) : null}
     </nav>
   );
 };

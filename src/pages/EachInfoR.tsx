@@ -57,7 +57,7 @@ export default function EachInfoR() {
   // Función para manejar la reserva
   const handleReservation = () => {
     if (isLoggedIn) {
-      navigate("/gettingdate"); // Si está logeado, redirige a la página de reserva
+      navigate("/gettingdate", { state: id}); // Si está logeado, redirige a la página de reserva
     } else {
       setShowModal(true); // Si no está logeado, muestra el modal
     }

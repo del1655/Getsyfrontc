@@ -15,7 +15,7 @@ const AppRoutes = () => {
     <Router>
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/reservations" element={<Reservations />} />
+        <Route path="/:userId/reservations" element={<Reservations />} />
         <Route path="/profile" element={<UserProfile />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Singup />} />

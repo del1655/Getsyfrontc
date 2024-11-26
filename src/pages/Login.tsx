@@ -20,7 +20,7 @@ const Login = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
-
+  
     try {
       const response = await axios.post(
         "http://localhost:8080/getsy-back/login-user",
@@ -31,10 +31,11 @@ const Login = () => {
           },
         }
       );
-
+  
       if (response.status === 200) {
-        // Guardar token en localStorage
+        // Guardar token y userId en localStorage
         localStorage.setItem("authToken", response.data.token);
+        localStorage.setItem("userId", response.data.user.id);  // Asegúrate de guardar el userId
         navigate("/");
       }
     } catch (error: any) {

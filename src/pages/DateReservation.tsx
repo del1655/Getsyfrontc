@@ -2,7 +2,8 @@ import { useState } from "react";
 import Navbar from "../components/Navbar";
 import "react-calendar/dist/Calendar.css";
 import Calendar from "react-calendar";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
 
 const DateReservation = () => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
@@ -12,6 +13,12 @@ const DateReservation = () => {
     people: 1,
   });
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const restaurantId = location.state;
+  const token = localStorage.getItem('authToken');
+
+  const decodedToken = jwtDecode(token);
 
   const handleDateSelect = (date: Date | Date[] | null) => {
     if (date instanceof Date) {
@@ -41,9 +48,11 @@ const DateReservation = () => {
     const reservationData = {
       date: selectedDate.toISOString(),
       time: reservationDetails.time,
-      people: reservationDetails.people,
-      restaurant: "Restaurante Ejemplo", // Cambia según tu lógica de negocio
-      userName: "Nombre del Usuario", // Obtén esto del contexto o del backend
+      pax: reservationDetails.people,
+      restaurantId,
+      userId: decodedToken.id,
+      // restaurant: "Restaurante Ejemplo", // Cambia según tu lógica de negocio
+      // userName: "Nombre del Usuario", // Obtén esto del contexto o del backend
     };
 
     try {
@@ -59,7 +68,6 @@ const DateReservation = () => {
       if (response.ok) {
         const data = await response.json();
 
-        // Redirigir a la página de confirmación con los datos de la reserva
         navigate("/confirmation-reservation", { state: { reservation: data } });
       } else {
         const errorData = await response.json();
